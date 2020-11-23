@@ -39,3 +39,9 @@
     }
   })
 </script>
+
+<style scope>
+label{
+  line-height: 30px;
+}
+</style>

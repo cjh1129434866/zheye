@@ -52,6 +52,7 @@
       return {
         emailRules,
         emailValue,
+        passwordValue,
         passwordRules,
         onFormSubmit
       }

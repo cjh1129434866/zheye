@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
-import { GlobalDtaProps } from '../../store'
+import { GlobalDataProps } from '../../store'
 import ColumnList, { ColumnProps } from '@/components/ColumnList.vue'
 export default defineComponent({
   name: 'Home',
@@ -27,7 +27,7 @@ export default defineComponent({
     ColumnList
   },
   setup() {
-    const store = useStore<GlobalDtaProps>()
+    const store = useStore<GlobalDataProps>()
     const list = computed(() => store.state.columns)
     return {
       list

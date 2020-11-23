@@ -17,15 +17,16 @@
 import { defineComponent, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore,  } from 'vuex'
-import { GlobalDtaProps } from '../../store'
+import { GlobalDataProps } from '../../store'
 import PostList from '@/components/PostList.vue'
 export default defineComponent({
   name: 'ColumsDetail',
   components: { PostList },
   setup() {
-    const store = useStore<GlobalDtaProps>()
+    const store = useStore<GlobalDataProps>()
     const route = useRoute()
     const currentId = +route.params.id
+    console.log('currentId===', currentId)
     const column = computed(() => store.getters.getColumnById(currentId))
     const list = computed(() => store.getters.getPostsByCid(currentId))
     return {
