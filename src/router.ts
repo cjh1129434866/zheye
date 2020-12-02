@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useStore } from 'vuex'
+import store from './store'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import ColumnDetail from '@/views/ColumnDetail.vue'
 import CreateArticle from '@/views/CreateArticle.vue'
+import SignUp from '@/views/SignUp.vue'
+import Axios from 'axios'
 const routerHistory = createWebHistory()
-const store = useStore()
 const router = createRouter({
   history: routerHistory,
   routes: [
@@ -17,7 +18,8 @@ const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: { redirectAlreadyLogin: true }
     },
     {
       path: '/columnDetail/:id',
@@ -27,17 +29,47 @@ const router = createRouter({
     {
       path: '/createArticle',
       name: 'CreateArticle',
-      component: CreateArticle
+      component: CreateArticle,
+      meta: { requiredLogin: true }
+    },
+    {
+      path: '/signup',
+      name: 'SignUp',
+      component: SignUp
     }
   ]
 })
 
 router.beforeEach((to, form, next) => {
-  console.log(to)
-  if (to.path !== '/login' && !store.state.user.isLogin) {
-    next('/login')
+  const { user, token } = store.state
+  const { requiredLogin, redirectAlreadyLogin } = to.meta
+  if (!user.isLogin) {
+    if (token) {
+      Axios.defaults.headers.common.Authorization = `Bearer ${token}`
+      store.dispatch('fetchCurrentUser').then(() => {
+        if (redirectAlreadyLogin) {
+          next('/')
+        } else {
+          next()
+        }
+      }).catch(e => {
+        console.log(e)
+        store.commit('loginOut')
+        next('/login')
+      })
+    } else {
+      if (requiredLogin) {
+        next('/login')
+      } else {
+        next()
+      }
+    }
   } else {
-    next()
+    if (redirectAlreadyLogin) {
+      next('/')
+    } else {
+      next()
+    }
   }
 })
 

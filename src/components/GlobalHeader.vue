@@ -7,10 +7,10 @@
     </ul>
     <ul v-else class="list-inline mb-0">
       <li class="list-inline-item">
-        <drop-down :title="`你好 ${user.name}`">
+        <drop-down :title="`你好 ${user.nickName}`">
           <dropdown-item><router-link to="/createArticle" class="dropdown-item">新建文章</router-link></dropdown-item>
           <dropdown-item disabled><a href="#" class="dropdown-item">编辑资料</a></dropdown-item>
-          <dropdown-item><a href="#" class="dropdown-item">退出登录</a></dropdown-item>
+          <dropdown-item><a href="#" class="dropdown-item" @click.prevent="loginOut">退出登录</a></dropdown-item>
         </drop-down>
       </li>
     </ul>
@@ -19,13 +19,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import DropDown from '@/components/DropDown.vue'
 import DropdownItem from '@/components/DropdownItem.vue'
-export interface UserProps{
-  isLogin: boolean;
-  name?: string;
-  id?: number;
-}
+import { UserProps } from '../store'
+
 export default defineComponent({
   name: 'GlobalHeader',
   components: {
@@ -36,6 +35,16 @@ export default defineComponent({
     user: {
       type: Object as PropType<UserProps>,
       required: true
+    }
+  },
+  setup() {
+    const store = useStore()
+    const router = useRouter()
+    const loginOut = () => {
+      store.commit('loginOut')
+    }
+    return {
+      loginOut
     }
   }
 })

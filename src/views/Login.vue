@@ -24,6 +24,7 @@
   import { useStore } from 'vuex'
   import ValidateInput, { RulesProp } from '@/components/ValidateInput.vue'
   import ValidateForm from '@/components/ValidateForm.vue'
+  import createMessage from '@/components/createMessage'
   export default defineComponent({
     name: 'Login',
     components: {
@@ -33,7 +34,7 @@
     setup() {
       const store = useStore()
       const router = useRouter()
-      const emailValue = ref('panghu@163.com')
+      const emailValue = ref('')
       const passwordValue = ref('')
       const emailRules: RulesProp = [
         { type: 'required', message: '邮箱地址不能为空' },
@@ -42,11 +43,22 @@
       const passwordRules: RulesProp = [
         { type: 'required', message: '密码不能为空' }
       ]
-      const onFormSubmit = (val: number) => {
+      const onFormSubmit = (val: boolean) => {
         console.log(val)
         if (val) {
-          router.push('/')
-          store.commit('login')
+          const payload = {
+            email: emailValue.value,
+            password: passwordValue.value
+          }
+          store.dispatch('loginAndFetch', payload).then(data => {
+            createMessage('登录成功，2秒后跳转至首页', 'success')
+            setTimeout(() => {
+              router.push('/')
+            }, 2000)
+            
+          }).catch(e => {
+            console.log(e)
+          })
         }
       }
       return {
