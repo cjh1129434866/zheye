@@ -19,7 +19,6 @@
     setup(props, context) {
       let funcArr:validateFunc[] = []
       const submitForm = () => {
-        console.log(funcArr)
         const result = funcArr.map(func => func()).every(result => result)
         context.emit('form-submit', result)
       }

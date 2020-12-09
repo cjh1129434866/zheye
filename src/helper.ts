@@ -24,9 +24,7 @@ interface CheckCondition {
   format?: string[];
   size?: number;
 }
-
 type ErrorType = 'size' | 'format' | null
-
 export function beforeUploadCheck(file: File, condition: CheckCondition) {
   const { format, size } = condition
   const isValidFormat = format ? format.includes(file.type) : true
@@ -36,14 +34,13 @@ export function beforeUploadCheck(file: File, condition: CheckCondition) {
     error = 'format'
   }
   if (!isValidSize) {
-    error = "size"
+    error = 'size'
   }
   return {
     passed: isValidFormat && isValidSize,
     error
   }
 }
-
 interface TestProps {
   _id: string;
   name: string;
@@ -59,7 +56,6 @@ export const arrToObj = <T extends { _id?: string }>(arr: Array<T>) => {
   }, {} as { [key: string]: T })
 }
 const result = arrToObj(testData)
-console.log(result)
 export const objToArr = <T>(obj: {[key: string]: T}) => {
   return Object.keys(obj).map(key => obj[key])
 }
@@ -69,4 +65,3 @@ const testData2: {[key: string]: TestProps} = {
 }
 
 const result2 = objToArr(testData2)
-console.log(result2)

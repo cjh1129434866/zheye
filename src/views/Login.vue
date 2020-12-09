@@ -44,7 +44,6 @@
         { type: 'required', message: '密码不能为空' }
       ]
       const onFormSubmit = (val: boolean) => {
-        console.log(val)
         if (val) {
           const payload = {
             email: emailValue.value,

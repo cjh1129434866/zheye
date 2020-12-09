@@ -28,7 +28,6 @@ export default defineComponent({
     const currentId = route.params.id
     const column = computed(() => store.getters.getColumnById(currentId))
     const list = computed(() => store.getters.getPostsByCid(currentId))
-    console.log('list===', list)
     onMounted(() => {
       store.dispatch('fetchColumn', currentId)
       store.dispatch('fetchPosts', currentId)

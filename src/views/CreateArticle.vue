@@ -19,7 +19,7 @@
       </template>
       <template #uploaded="dataProps">
         <div class="uploaded-area">
-          <img :src="dataProps.uploadedData.url" alt="">
+          <img :src="dataProps.uploadedData.data.url" alt="">
           <h3>点击重新上传</h3>
         </div>
       </template>
@@ -124,7 +124,7 @@ export default defineComponent({
     }
 
     const uploadCheck = (file: File) => {
-      const result = beforeUploadCheck(file, { format: ['image/jepg', 'image/png'], size: 1 })
+      const result = beforeUploadCheck(file, { format: ['image/jpeg', 'image/png'], size: 1 })
       const { passed, error } = result
       if (error === 'format') {
         createMessage('上传 图片只能是 JPG/PNG 格式！', 'error')

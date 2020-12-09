@@ -53,7 +53,6 @@ router.beforeEach((to, form, next) => {
           next()
         }
       }).catch(e => {
-        console.log(e)
         store.commit('loginOut')
         next('/login')
       })
